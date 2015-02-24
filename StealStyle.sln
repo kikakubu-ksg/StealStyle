@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealStyle", "stylesteal\StealStyle.csproj", "{B760772C-F316-4F4C-A37C-8BCC606B7503}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StealStyle", "StealStyle\StealStyle.csproj", "{B760772C-F316-4F4C-A37C-8BCC606B7503}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
