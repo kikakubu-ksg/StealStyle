@@ -83,7 +83,7 @@ namespace StealStyle
                 String httpHeader = null;
                 byte[] httpHeaderBuffer = new byte[4096];
                 String body = null;
-                byte[] bodyBuffer = new byte[4096];
+                byte[] bodyBuffer = new byte[65536];
                 string basedir = System.IO.Path.GetDirectoryName(mForm.textBox_bbsmenu.Text);
                 // reg
                 var r = new System.Text.RegularExpressions.Regex(@"([^/]+)/subject\.txt");
@@ -176,7 +176,26 @@ namespace StealStyle
                                 basedir + "\\" + mForm.dict[m.Groups[1].Value] + "\\" + m.Groups[2].Value + ".dat", Encoding.GetEncoding("Shift_JIS"));
                             body = convertLocalURI(sr.ReadToEnd(), req_dict["Host"]);
                             sr.Close();
-                            bodyBuffer = sjisEnc.GetBytes(body);
+                            if (req_dict.ContainsKey("Range"))
+                            {
+                                string[] strRange = req_dict["Range"].Split('=');
+                                int range = 0;
+                                try
+                                {
+                                    range = int.Parse(strRange[1].Replace("-", ""));//開始バイト位置
+                                }
+                                catch (Exception)
+                                {
+                                }
+                                var bodyBufferTmp = sjisEnc.GetBytes(body);
+                                var bodyBufferTmp2 = new byte[bodyBufferTmp.Length - range];
+                                Array.Copy(bodyBufferTmp, range, bodyBufferTmp2, 0, bodyBufferTmp.Length - range);
+                                bodyBuffer = bodyBufferTmp2;
+                            }
+                            else {
+                                bodyBuffer = sjisEnc.GetBytes(body);
+                            }
+                            
                         }
                     }
                         //* 作ったけど使われなさそうな部分 ここから *//
